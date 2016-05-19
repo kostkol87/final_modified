@@ -1,0 +1,126 @@
+<div class="container-fluid">
+    <section class=" col-md-4 col-md-offset-4">
+        <div class="info-panel-body">
+            <div class="info-panel-section gray">
+                <h1>Sign Up</h1>
+            </div>
+        </div>
+        <div class="info-panel-body ">
+            <div class="info-panel-section color-login">
+                <form method="post" name="RegistrationForm" novalidate>
+                    <!-- Start form-group username-->
+                    <div class="form-group">
+                        <label>Email</label>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="icon1"><span
+                                    class="fa fa-user"></span></span>
+                            <input type="email" maxlength="254" class="form-control" name="inputEmail" placeholder="E-mail"
+                                   ng-model="registrationData.email"
+                                   ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/"
+                                   required>
+                        </div>
+                        <p ng-show="RegistrationForm.inputEmail.$touched &&
+                                RegistrationForm.inputEmail.$error.required" class="help-block">
+                            <span style="color: red">Required!</span>
+                        </p>
+                        <p ng-show="RegistrationForm.inputEmail.$touched &&
+                               RegistrationForm.inputEmail.$error.pattern" class="help-block">
+                            <span style="color: red">Enter a valid email!</span>
+                        </p>
+                    </div>
+                    <!-- Start form-group password-->
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="icon2"><span
+                                    class="fa fa-lock"></span></span>
+                            <input type="password" maxlength="45" class="form-control" name="inputPassword"
+                                   placeholder="Password"
+                                   ng-model="registrationData.password" required>
+                        </div>
+                        <p ng-show="RegistrationForm.inputPassword.$touched &&
+                               RegistrationForm.inputPassword.$error.required" class="help-block">
+                            <span style="color: red">Required!</span>
+                        </p>
+                    </div>
+                    <!--start repeat password-->
+                    <div class="form-group">
+                        <label>Repeat password</label>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="icon3"><span
+                                    class="fa fa-lock"></span></span>
+                            <input type="password" maxlength="45" class="form-control" name="repeatPassword"
+                                   placeholder="Repeat password" ng-model="repeatPassword" required>
+                        </div>
+                        <p ng-show="RegistrationForm.repeatPassword.$touched &&
+                               RegistrationForm.repeatPassword.$error.required" class="help-block">
+                            <span style="color: red">Required!</span>
+                        </p>
+                    </div>
+                    <p ng-show="RegistrationForm.inputPassword.$touched &&
+                           RegistrationForm.repeatPassword.$touched && registrationData.password!=repeatPassword"
+                       class="help-block">
+                        <span style="color: red">Passwords are not the same!</span>
+                    </p>
+                    <!--start first name-->
+                    <div class="form-group">
+                        <label>Name</label>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="icon4"><span
+                                    class="fa fa-user"></span></span>
+                            <input type="text" maxlength="45" name="firstName" class="form-control" placeholder="Name"
+                                   ng-model="registrationData.name" required>
+                        </div>
+                        <p ng-show="RegistrationForm.firstName.$touched &&
+                               RegistrationForm.firstName.$error.required" class="help-block">
+                            <span style="color: red">Required!</span>
+                        </p>
+                    </div>
+                    <!--start surname-->
+                    <div class="form-group">
+                        <label>Surname</label>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="icon5">
+                                <span class="fa fa-user"></span>
+                            </span>
+                            <input type="text" maxlength="45" class="form-control" name="lastName" placeholder="Surname"
+                                   ng-model="registrationData.surname" required>
+                        </div>
+                        <p ng-show="RegistrationForm.lastName.$touched &&
+                               RegistrationForm.lastName.$error.required" class="help-block">
+                            <span style="color: red">Required!</span>
+                        </p>
+                    </div>
+                    <hr/>
+
+                    <div class="row">
+                        <div class="col-xs-6 login-left">
+                            <button type="submit" value="Submit" name="SignUpSubmit"
+                                    class="form-control button lime-green round btn-block"
+                                    ng-disabled="RegistrationForm.$invalid || registrationData.password!=repeatPassword"
+                                    ng-click="signUp()">
+                                Sign Up
+                            </button>
+                        </div>
+                        <div class="col-xs-6 register-right">
+                            <button type="button" name="Back" class="form-control button white round btn-block" ng-click="backToLogin()">
+                                Back
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <div class="col-md-4 margin-login">
+        <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)"
+                   ng-show="showAlerts">{{alert.msg}}
+        </uib-alert>
+    </div>
+</div>
+
+
+
+
+
+

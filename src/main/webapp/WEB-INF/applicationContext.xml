@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+                           http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+                           http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:security="http://www.springframework.org/schema/security">
+
+    <!-- Property files -->
+    <context:property-placeholder location="classpath:project.properties"/>
+
+    <aop:config proxy-target-class="true"/>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <context:annotation-config/>
+    <context:component-scan base-package="edu.flight_discounter.*"/>
+
+    <mvc:default-servlet-handler/>
+
+    <bean id="dataSource" name="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+        <property name="driverClass" value="com.mysql.jdbc.Driver" />
+        <property name="jdbcUrl" value="jdbc:mysql://${database.host}:${database.port}/${database.name}" />
+        <property name="username" value="${database.user}"/>
+        <property name="password" value="${database.pass}"/>
+        <property name="maxConnectionsPerPartition" value="${pool.maxConnectionsPerPartition}"/>
+        <property name="minConnectionsPerPartition" value="${pool.minConnectionsPerPartition}"/>
+        <property name="partitionCount" value="${pool.partitionCount}"/>
+        <property name="acquireIncrement" value="${pool.acquireIncrement}"/>
+        <property name="statementsCacheSize" value="${pool.statementsCacheSize}"/>
+    </bean>
+
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+
+    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean class="org.springframework.jdbc.core.JdbcTemplate" id="jdbcTemplate" depends-on="dataSource">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- Handlers -->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" id="handlerMapping">
+        <property name="alwaysUseFullPath" value="true">
+        </property>
+    </bean>
+
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="supportedMediaTypes" value="application/json"/>
+                <property name="objectMapper">
+                    <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+                        <property name="serializationInclusion" value="NON_NULL"/>
+                    </bean>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <security:http use-expressions="true" auto-config='true'>
+        <security:http-basic entry-point-ref="customBasicAuthenticationEntryPoint"/>
+        <security:intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <security:intercept-url pattern="/edu.flight_discounter.services/authentication/**" access="permitAll"/>
+        <security:session-management invalid-session-url="/">
+            <security:concurrency-control max-sessions="10" error-if-maximum-exceeded="true" />
+        </security:session-management>
+        <security:csrf disabled="true"/>
+    </security:http>
+
+    <security:authentication-manager>
+        <security:authentication-provider>
+            <security:password-encoder hash="sha"/>
+            <security:jdbc-user-service
+                    data-source-ref="dataSource"
+                    users-by-username-query="SELECT email AS username, password, FROM user WHERE email=?"
+                    authorities-by-username-query="SELECT email, role AS authority FROM user WHERE email=?" />
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+    <bean id="customBasicAuthenticationEntryPoint" class="edu.flight_discounter.special.CustomBasicAuthenticationEntryPoint">
+        <constructor-arg value="RealmName" />
+    </bean>
+
+    <!--MyBatis conf-->
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <bean id="directionMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="edu.flight_discounter.mappers.DirectionsMapper" />
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+
+    <bean id="usersMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="edu.flight_discounter.mappers.UsersMapper" />
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+
+</beans>

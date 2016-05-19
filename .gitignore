@@ -1,0 +1,22 @@
+# standart #
+############
+*.log
+
+# IntelliJ IDEA #
+#################
+.idea
+*.iws
+*.iml
+*.ipr
+*.ids
+
+# project auto-generation #
+###########################
+log
+target
+build
+node
+node_modules
+bower_components
+src/main/webapp/scripts/scripts.js
+src/main/webapp/styles/styles.css

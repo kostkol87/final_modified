@@ -1,0 +1,87 @@
+<div class="container-fluid">
+    <!-- Nested node template -->
+    <script type="text/ng-template" id="nodes_renderer.html">
+        <div ui-tree-handle ng-click="getTests(this)" class="treeNode">
+            <span class="fa" ng-if="!node.isLeaf">
+                <a style="cursor:pointer;" data-nodrag ng-click="toggle(this)">
+                    <i ng-class="{'fa fa-chevron-right white': collapsed, 'fa fa-chevron-down white': !collapsed}"></i>
+                </a>
+            </span>
+
+            <span class="fa" ng-if="node.hasTests">
+                <a style="cursor:pointer;" data-nodrag>
+                    <i class="fa fa-circle small-icon dark-blue"></i>
+                </a>
+            </span>
+
+            <span class="fa" ng-if="node.isLeaf && !node.hasTests">
+                <a style="cursor:pointer;" data-nodrag>
+                    <i class="fa fa-circle-o small-icon dark-blue"></i>
+                </a>
+            </span>
+
+            <label style="padding-right: 0.2%">{{node.categoryName}}</label>
+
+        </div>
+        <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: !collapsed}">
+            <li ng-repeat="node in node.nodes" data-collapsed="node.collapsed" ui-tree-node
+                ng-include="'nodes_renderer.html'">
+            </li>
+        </ol>
+    </script>
+
+    <navbar role-student></navbar>
+    <div class="row">
+        <div class="col-md-4">
+            <section >
+                <div class="info-panel-body">
+                    <div class="info-panel-section dark-blue">
+                        <h2>Categories
+                        </h2>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="info-panel-body">
+                    <div class="treeBackground info-panel-section blue">
+                        <div ui-tree data-drag-enabled="false">
+                            <ol ui-tree-nodes="" ng-model="treeData" id="tree-root">
+                                <li ng-repeat="node in treeData" ui-tree-node data-collapsed="node.collapsed"
+                                    ng-include="'nodes_renderer.html'"></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="col-md-8">
+            <table st-table="rowCollection" class="table table-bordered table-hover" ng-show="rowCollection.length > 0">
+                <thead>
+                <tr>
+                    <th class="text-center">Test name</th>
+                    <th class="text-center">Allocate time</th>
+                    <th class="text-center">Entrance to test</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="row in rowCollection">
+                    <td class="text-center">{{row.testName}}</td>
+                    <td class="text-center">{{row.allocatedTime}}</td>
+                    <td class="text-center">
+                        <button type="button" ng-disabled="!user.id" ng-click="startTest(this.row.id, this.row.testName)" class="form-control button round blue">
+                            <i class="fa fa-file-text-o" style="margin-right: 3px"></i>Start test
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4" id="alertsStudent">
+            <uib-alert ng-repeat="alert in alertsStudent" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}
+            </uib-alert>
+        </div>
+    </div>
+    <ts-footer></ts-footer>
+</div>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="main">
+<head>
+    <meta charset="utf-8">
+    <title>flight discounter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Team 2">
+
+    <!-- Angular libraries -->
+    <script src="./scripts/scripts.js"></script>
+    <script src="./angular/library/sha1.js"></script>
+    <script src="./angular/library/utils.js"></script>
+
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="./styles/styles.css"/>
+
+    <style>
+        [ng\:cloak], [ng-cloak], .ng-cloak {
+            display: none !important;
+        }
+    </style>
+
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-animate.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.2.1.js"></script>
+    <!-- bootstrap-->
+
+    <!-- Application init -->
+    <script src="./angular/app.js"></script>
+
+    <!-- Services -->
+    <script src="./angular/services/Network.js"></script>
+    <script src="./angular/services/AuthenticationService.js"></script>
+    <!--<script src="./angular/services/UsersService.js"></script>-->
+    <script src="./angular/services/RegistrationService.js"></script>
+    <script src="./angular/services/DirectionService.js"></script>
+    <script src="./angular/services/UsersService.js"></script>
+    <!--<script src="./angular/services/ExamsService.js"></script>-->
+    <!--<script src="./angular/services/CategoriesService.js"></script>-->
+    <!--<script src="./angular/services/StudentsService.js"></script>-->
+    <!--<script src="./angular/services/TestsService.js"></script>-->
+    <!--<script src="./angular/services/AnswersService.js"></script>-->
+    <!--<script src="./angular/services/QuestionsService.js"></script>-->
+    <!--<script src="./angular/services/QuestionWithAnswersService.js"></script>-->
+    <!--<script src="./angular/services/SessionService.js"></script>-->
+
+    <!-- Managers -->
+    <!--<script src="./angular/managers/DialogManager.js"></script>-->
+
+    <!-- Controllers -->
+    <script src="./angular/controllers/states/LoginController.js"></script>
+    <!--<script src="./angular/controllers/states/StudentDashboardController.js"></script>-->
+    <!--<script src="./angular/controllers/states/TeacherDashboardController.js"></script>-->
+    <!--<script src="./angular/controllers/states/AdminDashboardController.js"></script>-->
+    <!--<script src="./angular/controllers/dialogs/SignInDialogController.js"></script>-->
+    <script src="./angular/controllers/states/RegistrationController.js"></script>
+    <script src="./angular/controllers/states/DirectionController.js"></script>
+    <!--<script src="./angular/controllers/states/ExamsHistoryController.js"></script>-->
+    <!--<script src="./angular/controllers/states/OperatorDashboardController.js"></script>-->
+    <!--<script src="./angular/controllers/states/StudentsController.js"></script>-->
+    <!--<script src="./angular/controllers/states/StudentExamsController.js"></script>-->
+    <!--<script src="./angular/controllers/states/ExamStudentController.js"></script>-->
+
+    <!--&lt;!&ndash;Directives&ndash;&gt;-->
+    <!--<script src="./angular/templates/components/navbar/navbar.js"></script>-->
+    <!--<script src="./angular/templates/components/footer/footer.js"></script>-->
+
+</head>
+<body class="{{bodylayout}}" >
+
+<div ui-view class="main-container"></div>
+</body>
+</html>
