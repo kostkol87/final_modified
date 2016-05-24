@@ -20,6 +20,9 @@ angular.module('Registration').controller('RegistrationController', function ($s
                 $scope.showAlerts = true;
                 if (payload.isRegistered)
                     $state.go("login");
+                else {
+                    console.log("user already registered!!! <<<");
+                }
             },
             function onError() {
                 $state.go("registration");

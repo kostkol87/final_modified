@@ -30,6 +30,7 @@ public class UsersService {
         } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
+
         return usersDAO.createUser(newUser);
     }
 
